@@ -1,5 +1,6 @@
 # Js_Kanban
 
+## Vizualize o projeto
 https://guilhermelouback.github.io/JsKanban/
 
 O **Js_Kanban** é uma biblioteca JavaScript que permite criar quadros Kanban interativos em suas páginas da web. Com essa biblioteca, você pode gerenciar tarefas, projetos e fluxos de trabalho de forma eficiente, visualizando o progresso em diferentes etapas.
