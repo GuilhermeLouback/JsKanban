@@ -1,0 +1,221 @@
+/* Estilos globais */
+body {
+  font-family: "Lato", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #b0afb0;
+}
+
+/* Estilos para o Kanban */
+#Kanban {
+  padding: 0px 9px 0px 9px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  overflow: auto;
+}
+
+#Kanban .item {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  padding: 10px;
+  flex: 0 1 calc(33.3333% - 20px);
+}
+
+#Kanban .item:nth-child(3n) {
+  margin-right: 0;
+}
+
+.kanban-container {
+  display: contents;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.kanban-board {
+  margin-top: 10px;
+  border-radius: 30px;
+  text-align: center;
+  background: #e2e4e6;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  flex: 0 0 calc(33.3333% - 20px);
+  max-width: calc(20.3333% - 20px);
+
+}
+
+.kanban-board.disabled-board {
+  opacity: 0.3;
+}
+
+.kanban-board.is-moving.gu-mirror {
+  transform: rotate(3deg);
+}
+
+.kanban-board.is-moving.gu-mirror .kanban-drag {
+  overflow: hidden;
+  padding-right: 50px;
+}
+
+.kanban-board header {
+  cursor: pointer;
+  font-size: 16px;
+  padding: 15px;
+}
+
+.kanban-board header .kanban-title-board {
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.kanban-board header .kanban-title-button {
+  float: right;
+}
+
+.kanban-board .kanban-drag {
+  min-height: 150px;
+  max-height: 625px;
+  padding: 10px 5px;
+  margin-bottom: 15px;
+  overflow-y: auto;
+}
+
+.kanban-item {
+  border-radius: 30px;
+  background: #fff;
+  padding: 5px;
+  margin-bottom: 10px;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  animation: append-animate 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes append-animate {
+  from {
+      transform: translateY(-20px);
+  }
+  to {
+      transform: translateY(0px);
+  }
+}
+
+.kanban-item:hover {
+  cursor: move;
+}
+
+.kanban-item:last-child {
+  margin: 0;
+}
+
+.kanban-item.is-moving.gu-mirror {
+  transform: rotate(3deg);
+  height: auto !important;
+}
+
+/* Estilos para os blocos de cores */
+.warning, ._default ,.amarelo, .primary, .info, .indigo, .navy, .lightblue, .secondary, .orange, .lilas, .marrom, .pink, .fuchsia, .purple, .success, .olive, .lime, .teal, .danger, .vinho, .vermelho {
+  border-radius: 30px;
+  padding: 10px;
+  text-align: center;
+  color: #fff;
+}
+
+.warning {
+  background: #FFD700;
+}
+
+.amarelo {
+  background: #FFFF00;
+}
+
+.primary {
+  background: #007BFF;
+}
+
+.info {
+  background: #17A2B8;
+}
+
+.indigo {
+  background: #6610F2;
+}
+
+.navy {
+  background: #001F3F;
+}
+
+.lightblue {
+  background: #ADD8E6;
+}
+
+.secondary {
+  background: #6C757D;
+}
+
+.orange {
+  background: #FFA500;
+}
+
+.lilas {
+  background: #a12abf;
+}
+
+.marrom {
+  background: #A52A2A;
+}
+
+.pink {
+  background: #FFC0CB;
+}
+
+.fuchsia {
+  background: #FF00FF;
+}
+
+.purple {
+  background: #800080;
+}
+
+.success {
+  background: #28A745;
+}
+
+.olive {
+  background: #808000;
+}
+
+.lime {
+  background: #00FF00;
+}
+
+.teal {
+  background: #008080;
+}
+
+.danger {
+  background: #DC3545;
+}
+
+.vinho {
+  background: #800000;
+}
+
+.vermelho {
+  background: #FF0000;
+}
+
+._default{
+  background: #800080;
+}
+
+
+.buttons{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: baseline;
+}

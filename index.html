@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Js_Kanaban</title>
+    <link rel="stylesheet" href="/jkanban.min.css" />
+    <link rel="stylesheet" href="/jkanban.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+
+    <div class="buttons">
+      <button id="addDefault">Adcionar Quadro Default</button>
+      <br />
+      <button id="addToDo">Adcionar elemento ao Quadro "A Fazer"</button>
+      <br />
+      <button id="addToDoAtPosition">Adicionar elemento no quadro "A Fazer" na posicao 2 </button>
+      <br />
+      <button id="removeBoard">Remover Quadro "Finalizado"</button>
+      <br />
+      <button id="removeElement">Remover "Arrate o Item" Quadro 1</button>
+    </div>
+      
+    <div id="myKanban"></div>
+    <script src="/jkanban.js"></script>
+    <script>
+      var KanbanTest = new jKanban({
+        element: "#myKanban",
+        gutter: "10px",
+        widthBoard: "450px",
+        itemHandleOptions:{
+          enabled: true,
+        },
+
+        dragBoard        : function (el, source) {
+          var gridorderf = source.parentElement.getAttribute('data-order');
+          var solic  = el.dataset.eid;
+          console.log('Status: ' + solic + 'Oderm Grid: ' + gridorderf);
+        },
+
+
+        dragendBoard     : function (el) {
+          var solic  = el.dataset.eid;
+            console.log('Status: ' + solic);
+        }, 
+
+
+        click: function(el) {
+          console.log("Acao de click");
+        },
+        context: function(el, e) {
+          console.log("Acao de click com botao direito");
+        },
+        dropEl: function(el, target, source, sibling){
+          console.log(target.parentElement.getAttribute('data-id'));
+          console.log(el, target, source, sibling)
+        },
+
+
+        buttonClick: function(el, boardId) {
+          console.log(el);
+          console.log(boardId);
+          var formItem = document.createElement("form");
+          formItem.setAttribute("class", "itemform");
+          formItem.innerHTML =
+            '<div class="form-group"><textarea class="form-control" rows="2" autofocus></textarea></div><div class="form-group"><button type="submit" class="btn btn-primary btn-xs pull-right">Submit</button><button type="button" id="CancelBtn" class="btn btn-default btn-xs pull-right">Cancel</button></div>';
+
+          KanbanTest.addForm(boardId, formItem);
+          formItem.addEventListener("submit", function(e) {
+            e.preventDefault();
+            var text = e.target[0].value;
+            KanbanTest.addElement(boardId, {
+              title: text
+            });
+            formItem.parentNode.removeChild(formItem);
+          });
+          document.getElementById("CancelBtn").onclick = function() {
+            formItem.parentNode.removeChild(formItem);
+          };
+        },
+        itemAddOptions: {
+          enabled: true,
+          content: '+ Add Novo Cartao',
+          class: 'custom-button',
+          footer: true
+        },
+        boards: [
+          {
+            id: "_todo",
+            title: "A fazer",
+            class: "info,good",
+            //dragTo: ["_working"], descomente caso queira que possa ser somente arratado para o atributo 
+            item: [
+              {
+                id: "_test_delete",
+                title: "Arraste o item (olhe no console)",
+                drag: function(el, source) {
+                  console.log("Inicio Arrastar elemento: " + el.dataset.eid);
+                },
+                dragend: function(el) {
+                  console.log("Fim Arrastar elemento: " + el.dataset.eid);
+                },
+                drop: function(el) {
+                  console.log("Solta elemento: " + el.dataset.eid);
+                }
+              },
+              {
+                title: "Clique aqui !",
+                click: function(el) {
+                  alert("click");
+                },
+                context: function(el, e){
+                  alert("clique com botao direito no (" + `${e.pageX}` + "," + `${e.pageX}` + ")")
+                },
+                class: ["peppe", "bello"]
+              }
+            ]
+          },
+          {
+            id: "_working",
+            title: "Em processo",
+            class: "warning",
+            item: [
+              {
+                title: "Faca Alguma coisa "
+              },
+              {
+                title: "E agora?"
+              }
+            ]
+          },
+          {
+            id: "_done",
+            title: "Finalizado ",
+            class: "success",
+            //dragTo: ["_working"], Descomente para permitit somene para elemento especifico
+            item: [
+              {
+                title: "Tudo certo!"
+              },
+              {
+                title: "Ok!"
+              }
+            ]
+          }
+        ]
+      });
+
+      var toDoButton = document.getElementById("addToDo");
+      toDoButton.addEventListener("click", function() {
+        KanbanTest.addElement("_todo", {
+          title: "Test Adicionar"
+        });
+      });
+
+      var toDoButtonAtPosition = document.getElementById("addToDoAtPosition");
+      toDoButtonAtPosition.addEventListener("click", function() {
+        KanbanTest.addElement("_todo", {
+          title: "Teste Add na posicao 2"
+        }, 1);
+      });
+
+      var addBoardDefault = document.getElementById("addDefault");
+      addBoardDefault.addEventListener("click", function() {
+        KanbanTest.addBoards([
+          {
+            id: "_default",
+            title: "Kanban Default",
+            class: "_default",
+            item: [
+              {
+                title: "Item Padrao"
+              },
+              {
+                title: "Item Padrao 2"
+              },
+              {
+                title: "Item Padrao 3"
+              }
+            ]
+          }
+        ]);
+      });
+
+      var removeBoard = document.getElementById("removeBoard");
+      removeBoard.addEventListener("click", function() {
+        KanbanTest.removeBoard("_done");
+      });
+
+      var removeElement = document.getElementById("removeElement");
+      removeElement.addEventListener("click", function() {
+        KanbanTest.removeElement("_test_delete");
+      });
+
+      var allEle = KanbanTest.getBoardElements("_todo");
+      allEle.forEach(function(item, index) {
+        console.log(item);
+      });
+    </script>
+  </body>
+</html>
